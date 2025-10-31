@@ -12,19 +12,23 @@ Given an array of integers `nums` and an integer `target`, return indices of the
 **Example 1:**
 
 Input: nums = [2,7,11,15], target = 9
+
 Output: [0,1]
+
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
 
 **Example 2:**
 
 Input: nums = [3,2,4], target = 6
+
 Output: [1,2]
 
 
 **Example 3:**
 
 Input: nums = [3,3], target = 6
+
 Output: [0,1]
 
 
@@ -55,3 +59,17 @@ Output: [0,1]
 
 ```java
 // See Solution.java for the complete implementation
+
+📝 Notes
+We add the number to the hash map AFTER checking for its complement to avoid using the same element twice
+
+The problem guarantees exactly one solution, so we don't need to handle multiple solutions
+
+This approach works with negative numbers and zeros
+
+🔗 Related Problems
+167. Two Sum II - Input Array Is Sorted
+
+170. Two Sum III - Data structure design
+
+15. 3Sum
