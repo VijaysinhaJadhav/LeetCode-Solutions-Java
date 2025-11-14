@@ -2,8 +2,8 @@
 
 ## 📋 Problem Statement
 **Difficulty:** Easy  
-**Topics:** Hash Table, Linked List, Design, Hash Function  
-**Companies:** Amazon, Google, Microsoft, Apple, Bloomberg
+**Topics:** Array, Hash Table, Linked List, Design, Hash Function  
+**Companies:** Amazon, Microsoft, Apple, Google, Bloomberg, Oracle, Adobe
 
 [LeetCode Link](https://leetcode.com/problems/design-hashmap/)
 
@@ -14,7 +14,7 @@ Implement the `MyHashMap` class:
 - `MyHashMap()` initializes the object with an empty map.
 - `void put(int key, int value)` inserts a `(key, value)` pair into the HashMap. If the `key` already exists in the map, update the corresponding `value`.
 - `int get(int key)` returns the `value` to which the specified `key` is mapped, or `-1` if this map contains no mapping for the `key`.
-- `void remove(int key)` removes the `key` and its corresponding `value` if the map contains the mapping for the `key`.
+- `void remove(key)` removes the `key` and its corresponding `value` if the map contains the mapping for the `key`.
 
 **Example 1:**
 
@@ -36,53 +36,55 @@ myHashMap.put(1, 1); // The map is now [[1,1]]
 
 myHashMap.put(2, 2); // The map is now [[1,1], [2,2]]
 
-myHashMap.get(1); // return 1
+myHashMap.get(1); // return 1, The map is now [[1,1], [2,2]]
 
-myHashMap.get(3); // return -1 (not found)
+myHashMap.get(3); // return -1 (i.e., not found), The map is now [[1,1], [2,2]]
 
-myHashMap.put(2, 1); // The map is now [[1,1], [2,1]] (update existing value)
+myHashMap.put(2, 1); // The map is now [[1,1], [2,1]] (update the existing value)
 
-myHashMap.get(2); // return 1
+myHashMap.get(2); // return 1, The map is now [[1,1], [2,1]]
 
 myHashMap.remove(2); // remove the mapping for 2, The map is now [[1,1]]
 
-myHashMap.get(2); // return -1 (not found)
+myHashMap.get(2); // return -1 (i.e., not found), The map is now [[1,1]]
 
 
 **Constraints:**
 - `0 <= key, value <= 10^6`
 - At most `10^4` calls will be made to `put`, `get`, and `remove`.
 
+**Follow-up:** Please do not use the built-in HashMap library.
+
 ## 🧠 Thought Process
 
 ### Initial Thoughts
-- Need to design a HashMap from scratch without using built-in collections
-- Must handle key-value pairs with efficient put, get, and remove operations
-- Keys and values can range from 0 to 1,000,000
-- Need to handle key collisions and updates
+- Need to design a hash map from scratch
+- Key operations: put, get, remove
+- Handle collisions (multiple keys mapping to same bucket)
+- Choose appropriate data structure for buckets
 
 ### Key Insights
-1. **Array-based approach**: Since key range is limited (0-10^6), we can use an integer array of size 1,000,001 with -1 as "not found" indicator
-2. **Hashing with chaining**: More practical approach using buckets and linked lists for collision resolution
-3. **Entry class needed**: For chaining approach, need a class to store key-value pairs
-4. **Update semantics**: put should update value if key already exists
+1. **Hash Function**: Simple modulo operation works well
+2. **Collision Handling**: 
+   - Separate chaining with linked lists
+   - Separate chaining with arrays
+   - Open addressing (linear probing, quadratic probing)
+3. **Load Factor**: Resize when load factor exceeds threshold
+4. **Bucket Size**: Choose prime number to reduce collisions
 
 ### Approach Selection
-**Chosen Approach:** Hashing with Chaining (More Practical)  
+**Chosen Approach:** Separate Chaining with Linked Lists  
 **Why this approach?** 
-- More realistic implementation of a HashMap
-- Handles collisions properly
-- Memory efficient for sparse data
-- Demonstrates fundamental hashing concepts
-
-**Alternative Approach:** Array-based (Simple but Memory Intensive)
-- Direct indexing with array of size 1,000,001
-- O(1) operations but high memory usage
-- Not practical for real-world scenarios
+- Simple to implement
+- Handles collisions gracefully
+- Good average-case performance
+- Easy to understand and debug
 
 ## ⚡ Complexity Analysis
-- **Time Complexity:** O(n/b) average case, O(n) worst case for all operations, where n is number of elements and b is number of buckets
-- **Space Complexity:** O(n + b) where n is data size, b is bucket count
+- **Time Complexity:** 
+  - Average case: O(1) for all operations
+  - Worst case: O(n) when all keys hash to same bucket
+- **Space Complexity:** O(n + m) where n is number of elements, m is number of buckets
 
 ## 🔍 Solution Code
 
@@ -90,17 +92,17 @@ myHashMap.get(2); // return -1 (not found)
 // See Solution.java for the complete implementation
 
 📝 Notes
-Using 1000 buckets provides good distribution for up to 10^4 operations
+Using a prime number for bucket size helps distribute keys more evenly
 
-The Entry class is essential for storing key-value pairs in chains
+Linked list approach handles collisions by chaining
 
-Initialize array with -1 to handle "key not found" case
+Need to handle key updates in put operation
 
-The chaining approach is more educational and practical
+Remove operation needs to find and delete the node
 
 🔗 Related Problems
-705. Design HashSet
+Design HashSet
 
-146. LRU Cache
+LRU Cache
 
-380. Insert Delete GetRandom O(1)
+Insert Delete GetRandom O(1)
