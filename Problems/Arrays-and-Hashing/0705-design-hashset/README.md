@@ -2,73 +2,90 @@
 
 ## 📋 Problem Statement
 **Difficulty:** Easy  
-**Topics:** Hash Table, Linked List, Design, Hash Function  
-**Companies:** Amazon, Google, Microsoft, Apple
+**Topics:** Array, Hash Table, Linked List, Design, Hash Function  
+**Companies:** Amazon, Microsoft, Google, Apple, Bloomberg, Adobe
 
 [LeetCode Link](https://leetcode.com/problems/design-hashset/)
 
 Design a HashSet without using any built-in hash table libraries.
 
-Implement `MyHashSet` class:
+Implement the `MyHashSet` class:
 
-- `void add(key)` Inserts the value `key` into the HashSet.
-- `bool contains(key)` Returns whether the value `key` exists in the HashSet or not.
-- `void remove(key)` Removes the value `key` in the HashSet. If `key` does not exist in the HashSet, do nothing.
+- `MyHashSet()` initializes the object with an empty set.
+- `void add(key)` inserts the value `key` into the HashSet.
+- `bool contains(key)` returns whether the value `key` exists in the HashSet or not.
+- `void remove(key)` removes the value `key` in the HashSet. If `key` does not exist in the HashSet, do nothing.
 
 **Example 1:**
 
 Input
+
 ["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"]
+
 [[], [1], [2], [1], [3], [2], [2], [2], [2]]
+
 Output
+
 [null, null, null, true, false, null, true, null, false]
 
 Explanation
+
 MyHashSet myHashSet = new MyHashSet();
+
 myHashSet.add(1); // set = [1]
+
 myHashSet.add(2); // set = [1, 2]
+
 myHashSet.contains(1); // return True
-myHashSet.contains(3); // return False
+
+myHashSet.contains(3); // return False, (not found)
+
 myHashSet.add(2); // set = [1, 2]
+
 myHashSet.contains(2); // return True
+
 myHashSet.remove(2); // set = [1]
-myHashSet.contains(2); // return False
+
+myHashSet.contains(2); // return False, (already removed)
 
 
 **Constraints:**
 - `0 <= key <= 10^6`
 - At most `10^4` calls will be made to `add`, `remove`, and `contains`.
 
+**Follow-up:** Could you solve the problem without using the built-in HashSet library?
+
 ## 🧠 Thought Process
 
 ### Initial Thoughts
-- Need to design a HashSet from scratch without using built-in collections
-- Must handle key operations: add, remove, contains efficiently
-- Keys can range from 0 to 1,000,000
-- Need to consider time and space complexity trade-offs
+- Need to design a hash set from scratch
+- Key operations: add, contains, remove
+- Handle collisions (multiple keys mapping to same bucket)
+- Choose appropriate data structure for buckets
 
 ### Key Insights
-1. **Array-based approach**: Since key range is limited (0-10^6), we can use a boolean array of size 1,000,001
-2. **Hashing with chaining**: More memory-efficient approach using buckets and linked lists
-3. **Load factor considerations**: For chaining approach, need to choose appropriate number of buckets
-4. **Hash function**: Simple modulo operation works well for distribution
+1. **Hash Function**: Simple modulo operation works well
+2. **Collision Handling**: 
+   - Separate chaining with linked lists
+   - Separate chaining with arrays
+   - Open addressing (linear probing)
+3. **Load Factor**: Resize when load factor exceeds threshold
+4. **Bucket Size**: Choose prime number to reduce collisions
+5. **Simplification**: Only need to store keys, not key-value pairs
 
 ### Approach Selection
-**Chosen Approach:** Array-based (Simple and Efficient)  
+**Chosen Approach:** Separate Chaining with Linked Lists  
 **Why this approach?** 
-- Keys are constrained to 0-1,000,000 range
-- O(1) time complexity for all operations
-- Simple implementation with minimal code
-- Memory usage is acceptable (1MB for boolean array)
-
-**Alternative Approach:** Hashing with Chaining  
-- More memory efficient for sparse data
-- Better for unbounded key ranges
-- More complex implementation
+- Simple to implement
+- Handles collisions gracefully
+- Good average-case performance
+- Easy to understand and debug
 
 ## ⚡ Complexity Analysis
-- **Time Complexity:** O(1) for all operations (add, remove, contains)
-- **Space Complexity:** O(1) - fixed size array regardless of input (1,000,001 elements)
+- **Time Complexity:** 
+  - Average case: O(1) for all operations
+  - Worst case: O(n) when all keys hash to same bucket
+- **Space Complexity:** O(n + m) where n is number of elements, m is number of buckets
 
 ## 🔍 Solution Code
 
@@ -76,17 +93,17 @@ myHashSet.contains(2); // return False
 // See Solution.java for the complete implementation
 
 📝 Notes
-The array-based approach is optimal given the constraints
+Using a prime number for bucket size helps distribute keys more evenly
 
-Using boolean array saves space compared to integer array
+Linked list approach handles collisions by chaining
 
-For unbounded key ranges, consider hashing with chaining approach
+Add operation needs to check for duplicates
 
-The simplicity makes this solution easy to understand and maintain
+Remove operation needs to find and delete the node
 
 🔗 Related Problems
-706. Design HashMap
+Design HashMap
 
-380. Insert Delete GetRandom O(1)
+Contains Duplicate
 
-146. LRU Cache
+Single Number
